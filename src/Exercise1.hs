@@ -1,2 +1,4 @@
 absVal :: (Num a, Ord a) => a -> a
-absVal x = if (x < 0) then (negate x) else x
+absVal x = case x < 0 of
+  True  -> negate x
+  False -> x

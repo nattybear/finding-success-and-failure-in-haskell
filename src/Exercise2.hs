@@ -1,9 +1,7 @@
 validateUsernamePassword :: String -> String -> String
 validateUsernamePassword username password =
-  if null username
-    then (if null password
-            then "Empty username and password"
-            else "Empty username")
-    else (if null password
-            then "Empty password"
-            else "Okay")
+  case (null username, null password) of
+    (True,  True)  -> "Empty username and password"
+    (True,  False) -> "Empty username"
+    (False, True)  -> "Empty password"
+    (False, False) -> "Okay"

@@ -13,3 +13,5 @@ function2 x y =
 
 isAnagram :: String -> String -> Bool
 isAnagram word1 word2 = (sort word1) == (sort word2)
+
+isWord :: String -> Maybe String

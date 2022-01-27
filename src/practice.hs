@@ -6,3 +6,5 @@ function2 x y =
   case (x > y) of
     False -> y       -- when False, return y
     True  -> x + 10  -- when True, return x + 10
+
+isAnagram :: String -> String -> Bool

@@ -35,3 +35,9 @@ checkAnagram word1 word2 =
           case (isAnagram word1 word2) of
             False -> "These words are not anagrams."
             True  -> "These words are anagrams."
+
+main :: IO ()
+main = do
+  word1 <- getLine
+  word2 <- getLine
+  print (checkAnagram word1 word2)

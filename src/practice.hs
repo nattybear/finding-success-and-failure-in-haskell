@@ -1,5 +1,6 @@
 {-# OPTIONS_GHC -fdefer-typed-holes #-}
 
+import Data.Char
 import Data.List
 
 function :: Integer -> Integer -> Integer

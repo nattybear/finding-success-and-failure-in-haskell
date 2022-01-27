@@ -25,3 +25,7 @@ isWord word =
         True  -> Just word
 
 checkAnagram :: String -> String -> String
+checkAnagram word1 word2 =
+  case (isWord word1) of
+    Nothing    -> "The first word is invalid."
+    Just word1 -> _

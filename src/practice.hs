@@ -31,4 +31,7 @@ checkAnagram word1 word2 =
     Just word1 ->
       case (isWord word2) of
         Nothing    -> "The second word is invalid."
-        Just word2 -> _
+        Just word2 ->
+          case (isAnagram word1 word2) of
+            False -> "These words are not anagrams."
+            True  -> "These words are anagrams."

@@ -19,4 +19,7 @@ isWord :: String -> Maybe String
 isWord word =
   case (null word) of
     True  -> Nothing
-    False -> _
+    False ->
+      case (all isAlpha word) of
+        False -> Nothing
+        True  -> Just word

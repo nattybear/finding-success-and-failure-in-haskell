@@ -12,4 +12,4 @@ function2 x y =
     True  -> x + 10  -- when True, return x + 10
 
 isAnagram :: String -> String -> Bool
-isAnagram word1 word2 = _
+isAnagram word1 word2 = (sort word1) == (sort word2)

@@ -28,4 +28,7 @@ checkAnagram :: String -> String -> String
 checkAnagram word1 word2 =
   case (isWord word1) of
     Nothing    -> "The first word is invalid."
-    Just word1 -> _
+    Just word1 ->
+      case (isWord word2) of
+        Nothing    -> "The second word is invalid."
+        Just word2 -> _

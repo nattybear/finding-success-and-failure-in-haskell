@@ -23,3 +23,5 @@ isWord word =
       case (all isAlpha word) of
         False -> Nothing
         True  -> Just word
+
+checkAnagram :: String -> String -> String

@@ -1,5 +1,3 @@
-{-# OPTIONS_GHC -fdefer-typed-holes #-}
-
 substituteChar :: Char -> Char
 substituteChar c =
   case c of
@@ -7,4 +5,4 @@ substituteChar c =
     _   -> c
 
 translateWord :: String -> String
-translateWord word = _
+translateWord = map substituteChar

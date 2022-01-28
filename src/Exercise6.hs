@@ -1,7 +1,18 @@
 substituteChar :: Char -> Char
 substituteChar c =
   case c of
+    'b' -> '8'
+    'd' -> '>'
     'e' -> '3'
+    'f' -> '7'
+    'g' -> '9'
+    'h' -> '4'
+    'i' -> '1'
+    'j' -> '7'
+    'o' -> '0'
+    'q' -> '9'
+    'x' -> '%'
+    'z' -> '5'
     _   -> c
 
 translateWord :: String -> String

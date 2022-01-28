@@ -6,3 +6,9 @@ substituteChar c =
 
 translateWord :: String -> String
 translateWord = map substituteChar
+
+main :: IO ()
+main = do
+  putStr "Please enter a word.\n> "
+  word <- getLine
+  putStrLn $ translateWord word

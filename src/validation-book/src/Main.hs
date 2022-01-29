@@ -14,6 +14,13 @@ requireAlphaNum xs =
     False -> Nothing
     True  -> Just xs
 
+cleanWhitespace :: String -> Maybe String
+cleanWhitespace "" = Nothing
+cleanWhitespace (x : xs) =
+  case (isSpace x) of
+    True  -> cleanWhitespace xs
+    False -> Just (x : xs)
+
 main :: IO ()
 main = do
   putStr "Please enter a password\n> "

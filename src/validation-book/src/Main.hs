@@ -18,4 +18,4 @@ main :: IO ()
 main = do
   putStr "Please enter a password\n> "
   password <- getLine
-  print (checkPasswordLength password)
+  print (requireAlphaNum password)

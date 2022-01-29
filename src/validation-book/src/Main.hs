@@ -9,10 +9,10 @@ checkPasswordLength password =
     False -> Just password
 
 requireAlphaNum :: String -> Maybe String
-requireAlphaNum password =
-  case (all isAlphaNum password) of
+requireAlphaNum xs =
+  case (all isAlphaNum xs) of
     False -> Nothing
-    True  -> Just password
+    True  -> Just xs
 
 main :: IO ()
 main = do

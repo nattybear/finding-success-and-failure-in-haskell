@@ -8,4 +8,6 @@ checkPasswordLength password =
 
 main :: IO ()
 main = do
-  putStrLn "hello world"
+  putStr "Please enter a password\n> "
+  password <- getLine
+  print (checkPasswordLength password)

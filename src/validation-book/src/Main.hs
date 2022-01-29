@@ -4,9 +4,10 @@ import Data.Char
 
 checkPasswordLength :: String -> Maybe String
 checkPasswordLength password =
-  case (length password > 20) of
+  case (len > 20 || len < 10) of
     True  -> Nothing
     False -> Just password
+  where len = length password
 
 requireAlphaNum :: String -> Maybe String
 requireAlphaNum xs =
@@ -25,4 +26,4 @@ main :: IO ()
 main = do
   putStr "Please enter a password\n> "
   password <- getLine
-  print (cleanWhitespace password)
+  print (checkPasswordLength password)

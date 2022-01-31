@@ -36,7 +36,10 @@ combineThemAll xs =
 
 validatePassword :: String -> Maybe String
 validatePassword password =
-  requireAlphaNum (cleanWhitespace password)
+  case (cleanWhitespace password) of
+    Nothing -> Nothing
+    Just password2 ->
+      requireAlphaNum password2
 
 main :: IO ()
 main = do

@@ -44,4 +44,4 @@ main :: IO ()
 main = do
   putStr "Please enter a password\n> "
   password <- getLine
-  print (combineThemAll password)
+  print (validatePassword password)

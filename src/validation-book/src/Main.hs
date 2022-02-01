@@ -34,8 +34,14 @@ combineThemAll xs =
             Nothing  -> Nothing
             Just xs' -> Just xs'
 
+validatePassword :: String -> Maybe String
+validatePassword password =
+  cleanWhitespace password
+    >>= requireAlphaNum
+    >>= checkPasswordLength
+
 main :: IO ()
 main = do
   putStr "Please enter a password\n> "
   password <- getLine
-  print (combineThemAll password)
+  print (validatePassword password)

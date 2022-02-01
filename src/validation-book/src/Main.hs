@@ -42,7 +42,9 @@ validatePassword password =
       case (requireAlphaNum password2) of
         Nothing -> Nothing
         Just password3 ->
-          checkPasswordLength password3
+          case (checkPasswordLength password3) of
+            Nothing -> Nothing
+            Just password4 -> Just password4
 
 main :: IO ()
 main = do

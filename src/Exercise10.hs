@@ -1,2 +1,4 @@
 reverseLine :: IO ()
-reverseLine = getLine >>= (print . reverse)
+reverseLine = do
+  line <- getLine
+  print (reverse line)

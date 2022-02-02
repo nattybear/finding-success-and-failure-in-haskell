@@ -12,15 +12,16 @@ checkPasswordLength password =
 requireAlphaNum :: String -> Either String String
 requireAlphaNum xs =
   case (all isAlphaNum xs) of
-    False -> Nothing
-    True  -> Just xs
+    False -> Left "Your password cannot contain \
+                  \white space or special characters."
+    True  -> Right xs
 
 cleanWhitespace :: String -> Either String String
-cleanWhitespace "" = Nothing
+cleanWhitespace "" = Left "Your password cannot be empty."
 cleanWhitespace (x : xs) =
   case (isSpace x) of
     True  -> cleanWhitespace xs
-    False -> Just (x : xs)
+    False -> Right (x : xs)
 
 validatePassword :: String -> Either String String
 validatePassword password =

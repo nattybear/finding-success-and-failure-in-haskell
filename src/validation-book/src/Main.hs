@@ -50,3 +50,9 @@ eq n actual expected =
       , "  Expected:  " ++ show expected
       , "  But got:   " ++ show actual
       ])
+
+test :: IO ()
+test = printTestResult $ do
+  eq 1 (checkPasswordLength "") (Right "")
+  eq 2 (checkPasswordLength "julielovesbooks")
+       (Right "julielovesbooks")

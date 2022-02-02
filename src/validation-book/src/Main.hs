@@ -21,18 +21,6 @@ cleanWhitespace (x : xs) =
     True  -> cleanWhitespace xs
     False -> Just (x : xs)
 
-combineThemAll :: String -> Maybe String
-combineThemAll xs =
-  case cleanWhitespace xs of
-    Nothing  -> Nothing
-    Just xs' ->
-      case requireAlphaNum xs' of
-        Nothing  -> Nothing
-        Just xs' ->
-          case checkPasswordLength xs' of
-            Nothing  -> Nothing
-            Just xs' -> Just xs'
-
 validatePassword :: String -> String
 validatePassword password =
   case (cleanWhitespace password) of

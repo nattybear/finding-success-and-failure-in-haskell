@@ -9,13 +9,13 @@ checkPasswordLength password =
                   \than 20 characters."
     False -> Right password
 
-requireAlphaNum :: String -> Maybe String
+requireAlphaNum :: String -> Either String String
 requireAlphaNum xs =
   case (all isAlphaNum xs) of
     False -> Nothing
     True  -> Just xs
 
-cleanWhitespace :: String -> Maybe String
+cleanWhitespace :: String -> Either String String
 cleanWhitespace "" = Nothing
 cleanWhitespace (x : xs) =
   case (isSpace x) of

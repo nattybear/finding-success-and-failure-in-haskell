@@ -40,3 +40,13 @@ printTestResult r =
   case r of
     Left err -> putStrLn err
     Right () -> putStrLn "All tests passed."
+
+eq :: (Eq a, Show a) => Int -> a -> a -> Either String ()
+eq n actual expected =
+  case (actual == expected) of
+    True  -> Right ()
+    False -> Left (unlines
+      [ "Test " ++ show n
+      , "  Expected:  " ++ show expected
+      , "  But got:   " ++ show actual
+      ])

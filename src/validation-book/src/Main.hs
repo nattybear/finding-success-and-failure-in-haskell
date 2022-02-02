@@ -34,3 +34,9 @@ main = do
   putStr "Please enter a password\n> "
   password <- getLine
   print (validatePassword password)
+
+printTestResult :: Either String () -> IO ()
+printTestResult r =
+  case r of
+    Left err -> putStrLn err
+    Right () -> putStrLn "All tests passed."

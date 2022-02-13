@@ -11,12 +11,12 @@ newtype Error = Error String
 newtype Username = Username String
   deriving Show
 
-checkPasswordLength :: String -> Either String String
+checkPasswordLength :: String -> Either Error Password
 checkPasswordLength password =
   case (length password > 20) of
-    True  -> Left "Your password cannot be longer \
-                  \than 20 characters."
-    False -> Right password
+    True  -> Left (Error "Your password cannot be longer \
+                         \than 20 characters.")
+    False -> Right (Password password)
 
 requireAlphaNum :: String -> Either String String
 requireAlphaNum xs =

@@ -40,10 +40,10 @@ cleanWhitespace (x : xs) =
     False -> Right (x : xs)
 
 validatePassword :: Password -> Either Error Password
-validatePassword (Password password) =
-  cleanWhitespace password
-    >>= requireAlphaNum
-    >>= checkPasswordLength
+validatePassword (Password password) = do
+  password2 <- cleanWhitespace password
+  password3 <- requireAlphaNum password2
+  checkPasswordLength password3
 
 validateUsername :: Username -> Either Error Username
 validateUsername (Username username) =

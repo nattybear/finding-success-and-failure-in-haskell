@@ -49,7 +49,8 @@ main :: IO ()
 main = do
   putStr "Please enter a password\n> "
   password <- getLine
-  print (validatePassword password)
+  let password' = Password password
+  print (validatePassword password')
 
 printTestResult :: Either String () -> IO ()
 printTestResult r =

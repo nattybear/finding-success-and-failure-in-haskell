@@ -52,8 +52,7 @@ validateUsername (Username username) =
     >>= checkUsernameLength
 
 main :: IO ()
-main = do
-  putStr "Please enter a password\n> "
-  password <- getLine
-  let password' = Password password
-  print (validatePassword password')
+main =
+  putStrLn "Please enter a password\n> " >>
+  (Password <$> getLine) >>=
+  \pwd -> print (validatePassword pwd)

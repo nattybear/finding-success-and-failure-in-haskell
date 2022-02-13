@@ -42,8 +42,8 @@ cleanWhitespace (x : xs) =
 validatePassword :: Password -> Either Error Password
 validatePassword (Password password) =
   cleanWhitespace password
-    >>= checkPasswordLength
     >>= requireAlphaNum
+    >>= checkPasswordLength
 
 main :: IO ()
 main = do

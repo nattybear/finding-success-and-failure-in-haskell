@@ -25,15 +25,15 @@ checkUsernameLength name =
                          \than 15 characters.")
     False -> Right (Username name)
 
-requireAlphaNum :: String -> Either String String
+requireAlphaNum :: String -> Either Error String
 requireAlphaNum xs =
   case (all isAlphaNum xs) of
-    False -> Left "Your password cannot contain \
-                  \white space or special characters."
+    False -> Left (Error "Cannot contain white space \
+                         \or special characters.")
     True  -> Right xs
 
-cleanWhitespace :: String -> Either String String
-cleanWhitespace "" = Left "Your password cannot be empty."
+cleanWhitespace :: String -> Either Error String
+cleanWhitespace "" = Left (Error "Cannot be empty.")
 cleanWhitespace (x : xs) =
   case (isSpace x) of
     True  -> cleanWhitespace xs

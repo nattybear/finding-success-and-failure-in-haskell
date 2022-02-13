@@ -18,6 +18,13 @@ checkPasswordLength password =
                          \than 20 characters.")
     False -> Right (Password password)
 
+checkUsernameLength :: String -> Either Error Username
+checkUsernameLength name =
+  case (length name > 15) of
+    True  -> Left (Error "Username cannot be longer \
+                         \than 15 characters.")
+    False -> Right (Username name)
+
 requireAlphaNum :: String -> Either String String
 requireAlphaNum xs =
   case (all isAlphaNum xs) of

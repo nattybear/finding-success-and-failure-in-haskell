@@ -2,6 +2,15 @@ module Main where
 
 import Data.Char
 
+newtype Password = Password String
+  deriving Show
+
+newtype Error = Error String
+  deriving Show
+
+newtype Username = Username String
+  deriving Show
+
 checkPasswordLength :: String -> Either String String
 checkPasswordLength password =
   case (length password > 20) of

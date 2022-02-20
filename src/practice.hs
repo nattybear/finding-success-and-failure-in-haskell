@@ -36,10 +36,17 @@ checkAnagram word1 word2 =
             False -> "These words are not anagrams."
             True  -> "These words are anagrams."
 
+promptWord1 :: IO String
+promptWord1 = do
+  putStr "Please enter a word.\n> "
+  getLine
+
+promptWord2 :: IO String
+promptWord2 = do
+  putStr "Please enter a second word.\n> "
+  getLine
+
 main :: IO ()
 main = do
-  putStr "Please enter a word.\n> "
-  word1 <- getLine
-  putStr "Please enter a second word.\n> "
-  word2 <- getLine
-  print (checkAnagram word1 word2)
+  result <- checkAnagram <$> promptWord1 <*> promptWord2
+  print result

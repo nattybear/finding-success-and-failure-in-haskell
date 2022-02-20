@@ -59,6 +59,11 @@ makeUser name password =
   User <$> validateUsername name
        <*> validatePassword password
 
+makeUserTmpPassword :: Username -> Either Error User
+makeUserTmpPassword name =
+  User <$> validateUsername name
+       <*> Password "temporaryPassword"
+
 main :: IO ()
 main = do
   putStr "Please enter a username\n> "

@@ -62,7 +62,7 @@ makeUser name password =
 makeUserTmpPassword :: Username -> Either Error User
 makeUserTmpPassword name =
   User <$> validateUsername name
-       <*> Right (Password "temporaryPassword")
+       <*> pure (Password "temporaryPassword")
 
 main :: IO ()
 main = do

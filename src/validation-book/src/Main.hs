@@ -55,7 +55,9 @@ validateUsername (Username username) =
   >>= checkUsernameLength
 
 makeUser :: Username -> Password -> Either Error User
-makeUser = undefined
+makeUser name password =
+  User <$> validateUsername name
+       <*> validatePassword password
 
 main :: IO ()
 main = do

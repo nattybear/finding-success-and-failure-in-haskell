@@ -45,6 +45,12 @@ validatePassword (Password password) =
     >>= requireAlphaNum
     >>= checkPasswordLength
 
+validateUsername :: Username -> Either Error Username
+validateUsername (Username username) =
+  cleanWhitespace username
+  >>= requireAlphaNum
+  >>= checkUsernameLength
+
 main :: IO ()
 main = do
   putStr "Please enter a password\n> "

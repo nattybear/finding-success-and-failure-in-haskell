@@ -53,6 +53,9 @@ validateUsername (Username username) =
 
 main :: IO ()
 main = do
+  putStr "Please enter a username\n> "
+  username <- Username <$> getLine
   putStr "Please enter a password\n> "
   password <- Password <$> getLine
+  print (validateUsername username)
   print (validatePassword password)

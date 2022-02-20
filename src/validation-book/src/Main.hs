@@ -54,6 +54,9 @@ validateUsername (Username username) =
   >>= requireAlphaNum
   >>= checkUsernameLength
 
+makeUser :: Username -> Password -> Either Error User
+makeUser = undefined
+
 main :: IO ()
 main = do
   putStr "Please enter a username\n> "

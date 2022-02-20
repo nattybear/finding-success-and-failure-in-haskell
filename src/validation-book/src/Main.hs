@@ -11,6 +11,9 @@ newtype Error = Error String
 newtype Username = Username String
   deriving Show
 
+data User = User Username Password
+  deriving Show
+
 checkPasswordLength :: String -> Either Error Password
 checkPasswordLength password =
   case (length password > 20) of

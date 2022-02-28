@@ -49,7 +49,8 @@ validatePassword :: Password -> Validation Error Password
 validatePassword (Password password) =
   case (cleanWhitespace password) of
     Failure err -> Failure err
-    Success password2 -> _
+    Success password2 -> requireAlphaNum password2 *>
+                         checkPasswordLength password2
 
 validateUsername :: Username -> Validation Error Username
 validateUsername (Username username) =

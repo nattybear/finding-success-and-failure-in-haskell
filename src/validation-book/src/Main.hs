@@ -15,47 +15,47 @@ newtype Username = Username String
 data User = User Username Password
   deriving Show
 
-checkPasswordLength :: String -> Either Error Password
+checkPasswordLength :: String -> Validation Error Password
 checkPasswordLength password =
   case (length password > 20) of
-    True  -> Left (Error "Your password cannot be longer \
-                         \than 20 characters.")
-    False -> Right (Password password)
+    True  -> Failure (Error ["Your password cannot be longer \
+                             \than 20 characters."])
+    False -> Success (Password password)
 
-checkUsernameLength :: String -> Either Error Username
+checkUsernameLength :: String -> Validation Error Username
 checkUsernameLength name =
   case (length name > 15) of
-    True  -> Left (Error "Username cannot be longer \
-                         \than 15 characters.")
-    False -> Right (Username name)
+    True  -> Failure (Error ["Username cannot be longer \
+                             \than 15 characters."])
+    False -> Success (Username name)
 
-requireAlphaNum :: String -> Either Error String
+requireAlphaNum :: String -> Validation Error String
 requireAlphaNum xs =
   case (all isAlphaNum xs) of
-    False -> Left (Error "Cannot contain white space \
-                         \or special characters.")
-    True  -> Right xs
+    False -> Failure (Error ["Cannot contain white space \
+                             \or special characters."])
+    True  -> Success xs
 
-cleanWhitespace :: String -> Either Error String
-cleanWhitespace "" = Left (Error "Cannot be empty.")
+cleanWhitespace :: String -> Validation Error String
+cleanWhitespace "" = Failure (Error ["Cannot be empty."])
 cleanWhitespace (x : xs) =
   case (isSpace x) of
     True  -> cleanWhitespace xs
-    False -> Right (x : xs)
+    False -> Success (x : xs)
 
-validatePassword :: Password -> Either Error Password
+validatePassword :: Password -> Validation Error Password
 validatePassword (Password password) =
   cleanWhitespace password
     >>= requireAlphaNum
     >>= checkPasswordLength
 
-validateUsername :: Username -> Either Error Username
+validateUsername :: Username -> Validation Error Username
 validateUsername (Username username) =
   cleanWhitespace username
   >>= requireAlphaNum
   >>= checkUsernameLength
 
-makeUser :: Username -> Password -> Either Error User
+makeUser :: Username -> Password -> Validation Error User
 makeUser name password =
   User <$> validateUsername name
        <*> validatePassword password

@@ -1,6 +1,7 @@
 module Main where
 
 import Data.Char
+import Data.Validation
 
 newtype Password = Password String
   deriving Show

@@ -1,3 +1,5 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 module Main where
 
 import Data.Char
@@ -7,10 +9,7 @@ newtype Password = Password String
   deriving Show
 
 newtype Error = Error [String]
-  deriving Show
-
-instance Semigroup Error where
-  Error xs <> Error ys = Error (xs <> ys)
+  deriving (Semigroup, Show)
 
 newtype Username = Username String
   deriving Show

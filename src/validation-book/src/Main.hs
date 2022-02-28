@@ -6,7 +6,7 @@ import Data.Validation
 newtype Password = Password String
   deriving Show
 
-newtype Error = Error String
+newtype Error = Error [String]
   deriving Show
 
 newtype Username = Username String

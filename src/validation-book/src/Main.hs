@@ -47,9 +47,9 @@ cleanWhitespace (x : xs) =
 
 validatePassword :: Password -> Validation Error Password
 validatePassword (Password password) =
-  cleanWhitespace password
-    >>= requireAlphaNum
-    >>= checkPasswordLength
+  case (cleanWhitespace password) of
+    Failure err -> Failure err
+    Success password2 -> _
 
 validateUsername :: Username -> Validation Error Username
 validateUsername (Username username) =

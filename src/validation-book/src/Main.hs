@@ -10,7 +10,7 @@ newtype Error = Error [String]
   deriving Show
 
 instance Semigroup Error where
-  Error xs <> Error ys = Error (xs ++ ys)
+  Error xs <> Error ys = Error (xs <> ys)
 
 newtype Username = Username String
   deriving Show

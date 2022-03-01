@@ -8,45 +8,43 @@ import Data.Validation
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 
-newtype Password = Password String
+newtype Password = Password T.Text
   deriving Show
 
-newtype Error = Error [String]
+newtype Error = Error [T.Text]
   deriving (Semigroup, Show)
 
-newtype Username = Username String
+newtype Username = Username T.Text
   deriving Show
 
 data User = User Username Password
   deriving Show
 
-checkPasswordLength :: String -> Validation Error Password
+checkPasswordLength :: T.Text -> Validation Error Password
 checkPasswordLength password =
-  case (length password > 20) of
+  case (T.length password > 20) of
     True  -> Failure (Error ["Your password cannot be longer \
                              \than 20 characters."])
     False -> Success (Password password)
 
-checkUsernameLength :: String -> Validation Error Username
+checkUsernameLength :: T.Text -> Validation Error Username
 checkUsernameLength name =
-  case (length name > 15) of
+  case (T.length name > 15) of
     True  -> Failure (Error ["Username cannot be longer \
                              \than 15 characters."])
     False -> Success (Username name)
 
-requireAlphaNum :: String -> Validation Error String
+requireAlphaNum :: T.Text -> Validation Error T.Text
 requireAlphaNum xs =
-  case (all isAlphaNum xs) of
+  case (T.all isAlphaNum xs) of
     False -> Failure (Error ["Cannot contain white space \
                              \or special characters."])
     True  -> Success xs
 
-cleanWhitespace :: String -> Validation Error String
-cleanWhitespace "" = Failure (Error ["Cannot be empty."])
-cleanWhitespace (x : xs) =
-  case (isSpace x) of
-    True  -> cleanWhitespace xs
-    False -> Success (x : xs)
+cleanWhitespace :: T.Text -> Validation Error T.Text
+cleanWhitespace t = if T.null t
+                    then Failure (Error ["Cannot be empty."])
+                    else Success $ T.strip t
 
 validatePassword :: Password -> Validation Error Password
 validatePassword (Password password) =
@@ -70,7 +68,7 @@ makeUser name password =
 main :: IO ()
 main = do
   putStr "Please enter a username\n> "
-  username <- Username <$> getLine
+  username <- Username <$> T.getLine
   putStr "Please enter a password\n> "
-  password <- Password <$> getLine
+  password <- Password <$> T.getLine
   print (makeUser username password)

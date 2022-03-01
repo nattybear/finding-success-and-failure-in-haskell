@@ -4,6 +4,8 @@ module Main where
 
 import Data.Char
 import Data.Validation
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
 
 newtype Password = Password String
   deriving Show

@@ -75,8 +75,8 @@ usernameErrors username =
 
 makeUser :: Username -> Password -> Validation Error User
 makeUser name password =
-  User <$> validateUsername name
-       <*> validatePassword password
+  User <$> usernameErrors name
+       <*> passwordErrors password
 
 main :: IO ()
 main = do

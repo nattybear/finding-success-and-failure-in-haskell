@@ -1,4 +1,5 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE ApplicativeDo #-}
 
 module Main where
 
@@ -60,9 +61,10 @@ validateUsername (Username username) =
                          checkUsernameLength username2
 
 makeUser :: Username -> Password -> Validation Error User
-makeUser name password =
-  User <$> validateUsername name
-       <*> validatePassword password
+makeUser name password = do
+  name' <- validateUsername name
+  password' <- validatePassword password
+  return $ User name' password'
 
 main :: IO ()
 main = do

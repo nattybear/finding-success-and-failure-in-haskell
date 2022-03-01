@@ -52,6 +52,13 @@ validatePassword (Password password) =
     Success password2 -> requireAlphaNum password2 *>
                          checkPasswordLength password2
 
+validateUsername :: Username -> Validation Error Username
+validateUsername (Username username) =
+  case (cleanWhitespace username) of
+    Failure err -> Failure err
+    Success username2 -> requireAlphaNum username2 *>
+                         checkUsernameLength username2
+
 passwordErrors :: Password -> Validation Error Password
 passwordErrors password =
   case validatePassword password of
@@ -59,12 +66,12 @@ passwordErrors password =
                             <> err)
     Success password2 -> Success password2
 
-validateUsername :: Username -> Validation Error Username
-validateUsername (Username username) =
-  case (cleanWhitespace username) of
-    Failure err -> Failure err
-    Success username2 -> requireAlphaNum username2 *>
-                         checkUsernameLength username2
+usernameErrors :: Username -> Validation Error Username
+usernameErrors username =
+  case validateUsername username of
+    Failure err -> Failure (Error ["Invalid username:"]
+                            <> err)
+    Success username2 -> Success username2
 
 makeUser :: Username -> Password -> Validation Error User
 makeUser name password =

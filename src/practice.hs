@@ -45,6 +45,5 @@ promptWord2 =
   putStr "Please enter a second word.\n> " *> getLine
 
 main :: IO ()
-main = do
-  result <- checkAnagram <$> promptWord1 <*> promptWord2
-  print result
+main =
+  checkAnagram <$> promptWord1 <*> promptWord2 >>= print

@@ -52,6 +52,13 @@ validatePassword (Password password) =
     Success password2 -> requireAlphaNum password2 *>
                          checkPasswordLength password2
 
+passwordErrors :: Password -> Validation Error Password
+passwordErrors password =
+  case validatePassword password of
+    Failure err -> Failure (Error ["Invalid password:"]
+                            <> err)
+    Success password2 -> Success password2
+
 validateUsername :: Username -> Validation Error Username
 validateUsername (Username username) =
   case (cleanWhitespace username) of

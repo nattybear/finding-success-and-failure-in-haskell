@@ -23,26 +23,26 @@ data User = User Username Password
 checkPasswordLength :: String -> Validation Error Password
 checkPasswordLength password =
   case (length password > 20) of
-    True  -> Failure (Error ["Your password cannot be longer \
-                             \than 20 characters."])
+    True  -> Failure (makeError "Your password cannot be longer \
+                                \than 20 characters.")
     False -> Success (Password password)
 
 checkUsernameLength :: String -> Validation Error Username
 checkUsernameLength name =
   case (length name > 15) of
-    True  -> Failure (Error ["Username cannot be longer \
-                             \than 15 characters."])
+    True  -> Failure (makeError "Username cannot be longer \
+                                \than 15 characters.")
     False -> Success (Username name)
 
 requireAlphaNum :: String -> Validation Error String
 requireAlphaNum xs =
   case (all isAlphaNum xs) of
-    False -> Failure (Error ["Cannot contain white space \
-                             \or special characters."])
+    False -> Failure (makeError "Cannot contain white space \
+                                \or special characters.")
     True  -> Success xs
 
 cleanWhitespace :: String -> Validation Error String
-cleanWhitespace "" = Failure (Error ["Cannot be empty."])
+cleanWhitespace "" = Failure (makeError "Cannot be empty.")
 cleanWhitespace (x : xs) =
   case (isSpace x) of
     True  -> cleanWhitespace xs
@@ -65,15 +65,13 @@ validateUsername (Username username) =
 passwordErrors :: Password -> Validation Error Password
 passwordErrors password =
   case validatePassword password of
-    Failure err -> Failure (Error ["Invalid password:"]
-                            <> err)
+    Failure err -> Failure (makeError "Invalid password:" <> err)
     Success password2 -> Success password2
 
 usernameErrors :: Username -> Validation Error Username
 usernameErrors username =
   case validateUsername username of
-    Failure err -> Failure (Error ["Invalid username:"]
-                            <> err)
+    Failure err -> Failure (makeError "Invalid username:" <> err)
     Success username2 -> Success username2
 
 makeUser :: Username -> Password -> Validation Error User

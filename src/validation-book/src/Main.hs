@@ -78,6 +78,11 @@ makeUser name password =
   User <$> usernameErrors name
        <*> passwordErrors password
 
+display :: Username -> Password -> IO ()
+display name password =
+  case makeUser name password of
+    Failure err -> _
+
 main :: IO ()
 main = do
   putStr "Please enter a username\n> "

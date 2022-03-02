@@ -11,6 +11,9 @@ newtype Password = Password String
 newtype Error = Error [String]
   deriving (Semigroup, Show)
 
+makeError :: String -> Error
+makeError s = Error [s]
+
 newtype Username = Username String
   deriving Show
 

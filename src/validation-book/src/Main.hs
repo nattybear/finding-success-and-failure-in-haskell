@@ -2,17 +2,19 @@
 
 module Main where
 
-import Data.Char
-import Data.Validation
+import           Data.Char
+import           Data.List.NonEmpty (NonEmpty(..))
+import qualified Data.List.NonEmpty as N
+import           Data.Validation
 
 newtype Password = Password String
   deriving Show
 
-newtype Error = Error [String]
+newtype Error = Error (NonEmpty String)
   deriving (Semigroup, Show)
 
 makeError :: String -> Error
-makeError s = Error [s]
+makeError s = Error $ s :| []
 
 newtype Username = Username String
   deriving Show
@@ -82,11 +84,16 @@ makeUser name password =
 display :: Username -> Password -> IO ()
 display name password =
   case makeUser name password of
-    Failure err -> putStr (unlines (errorCoerce err))
+    Failure err -> putStr (unlines' (errorCoerce err))
     Success (User (Username name) password) ->
       putStrLn ("Welcome, " ++ name)
 
-errorCoerce :: Error -> [String]
+unlines' :: NonEmpty String -> String
+unlines' ns = x ++ "\n" ++ unlines xs
+  where x = N.head ns
+        xs = N.tail ns
+
+errorCoerce :: Error -> NonEmpty String
 errorCoerce (Error err) = err
 
 main :: IO ()

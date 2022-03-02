@@ -59,10 +59,34 @@ validateUsername (Username username) =
     Success username2 -> requireAlphaNum username2 *>
                          checkUsernameLength username2
 
+passwordErrors :: Password -> Validation Error Password
+passwordErrors password =
+  case validatePassword password of
+    Failure err -> Failure (Error ["Invalid password:"]
+                            <> err)
+    Success password2 -> Success password2
+
+usernameErrors :: Username -> Validation Error Username
+usernameErrors username =
+  case validateUsername username of
+    Failure err -> Failure (Error ["Invalid username:"]
+                            <> err)
+    Success username2 -> Success username2
+
 makeUser :: Username -> Password -> Validation Error User
 makeUser name password =
-  User <$> validateUsername name
-       <*> validatePassword password
+  User <$> usernameErrors name
+       <*> passwordErrors password
+
+display :: Username -> Password -> IO ()
+display name password =
+  case makeUser name password of
+    Failure err -> putStr (unlines (errorCoerce err))
+    Success (User (Username name) password) ->
+      putStrLn ("Welcome, " ++ name)
+
+errorCoerce :: Error -> [String]
+errorCoerce (Error err) = err
 
 main :: IO ()
 main = do
@@ -70,4 +94,4 @@ main = do
   username <- Username <$> getLine
   putStr "Please enter a password\n> "
   password <- Password <$> getLine
-  print (makeUser username password)
+  display username password

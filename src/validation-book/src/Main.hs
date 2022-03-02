@@ -94,4 +94,4 @@ main = do
   username <- Username <$> getLine
   putStr "Please enter a password\n> "
   password <- Password <$> getLine
-  print (makeUser username password)
+  display username password

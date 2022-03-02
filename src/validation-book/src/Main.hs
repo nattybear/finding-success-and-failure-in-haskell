@@ -83,6 +83,9 @@ display name password =
   case makeUser name password of
     Failure err -> _
 
+errorCoerce :: Error -> [String]
+errorCoerce (Error err) = err
+
 main :: IO ()
 main = do
   putStr "Please enter a username\n> "

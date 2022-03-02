@@ -1,5 +1,3 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-
 module Main where
 
 import Data.Char
@@ -8,8 +6,11 @@ import Data.Validation
 newtype Password = Password String
   deriving Show
 
-newtype Error = Error [String]
-  deriving (Semigroup, Show)
+newtype Error = Error String
+  deriving Show
+
+instance Semigroup Error where
+  Error e1 <> Error e2 = Error $ e1 <> "\n" <> e2
 
 newtype Username = Username String
   deriving Show
@@ -20,26 +21,26 @@ data User = User Username Password
 checkPasswordLength :: String -> Validation Error Password
 checkPasswordLength password =
   case (length password > 20) of
-    True  -> Failure (Error ["Your password cannot be longer \
-                             \than 20 characters."])
+    True  -> Failure (Error "Your password cannot be longer \
+                            \than 20 characters.")
     False -> Success (Password password)
 
 checkUsernameLength :: String -> Validation Error Username
 checkUsernameLength name =
   case (length name > 15) of
-    True  -> Failure (Error ["Username cannot be longer \
-                             \than 15 characters."])
+    True  -> Failure (Error "Username cannot be longer \
+                            \than 15 characters.")
     False -> Success (Username name)
 
 requireAlphaNum :: String -> Validation Error String
 requireAlphaNum xs =
   case (all isAlphaNum xs) of
-    False -> Failure (Error ["Cannot contain white space \
-                             \or special characters."])
+    False -> Failure (Error "Cannot contain white space \
+                            \or special characters.")
     True  -> Success xs
 
 cleanWhitespace :: String -> Validation Error String
-cleanWhitespace "" = Failure (Error ["Cannot be empty."])
+cleanWhitespace "" = Failure (Error "Cannot be empty.")
 cleanWhitespace (x : xs) =
   case (isSpace x) of
     True  -> cleanWhitespace xs
@@ -62,15 +63,13 @@ validateUsername (Username username) =
 passwordErrors :: Password -> Validation Error Password
 passwordErrors password =
   case validatePassword password of
-    Failure err -> Failure (Error ["Invalid password:"]
-                            <> err)
+    Failure err -> Failure (Error "Invalid password:" <> err)
     Success password2 -> Success password2
 
 usernameErrors :: Username -> Validation Error Username
 usernameErrors username =
   case validateUsername username of
-    Failure err -> Failure (Error ["Invalid username:"]
-                            <> err)
+    Failure err -> Failure (Error "Invalid username:" <> err)
     Success username2 -> Success username2
 
 makeUser :: Username -> Password -> Validation Error User
@@ -81,11 +80,11 @@ makeUser name password =
 display :: Username -> Password -> IO ()
 display name password =
   case makeUser name password of
-    Failure err -> putStr (unlines (errorCoerce err))
+    Failure err -> putStr (errorCoerce err)
     Success (User (Username name) password) ->
       putStrLn ("Welcome, " ++ name)
 
-errorCoerce :: Error -> [String]
+errorCoerce :: Error -> String
 errorCoerce (Error err) = err
 
 main :: IO ()
@@ -95,3 +94,4 @@ main = do
   putStr "Please enter a password\n> "
   password <- Password <$> getLine
   display username password
+  putStrLn ""

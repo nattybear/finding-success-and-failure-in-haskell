@@ -104,6 +104,9 @@ userPasswordCoerce (UserPW pw) = pw
 userPasswordCoerce' :: UserPW -> String
 userPasswordCoerce' = passwordCoerce . userPasswordCoerce
 
+userPasswordCoerceBack :: String -> UserPW
+userPasswordCoerceBack = UserPW . Password
+
 adminPasswordCoerce :: AdminPW -> Password
 adminPasswordCoerce (AdminPW pw) = pw
 

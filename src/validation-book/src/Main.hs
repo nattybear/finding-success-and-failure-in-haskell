@@ -87,8 +87,8 @@ display :: Username -> Password -> IO ()
 display name password =
   case makeUser name password of
     Failure err -> putStr (unlines (coerce err))
-    Success (User (Username name) password) ->
-      putStrLn ("Welcome, " ++ name)
+    Success (User name password) ->
+      putStrLn ("Welcome, " ++ coerce name)
 
 errorCoerce :: Error -> [String]
 errorCoerce (Error err) = err

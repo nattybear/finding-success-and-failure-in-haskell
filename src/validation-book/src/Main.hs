@@ -17,6 +17,10 @@ newtype Username = Username String
 data User = User Username Password
   deriving Show
 
+newtype UserPW = UserPW Password
+
+newtype AdminPW = AdminPW Password
+
 checkPasswordLength :: String -> Validation Error Password
 checkPasswordLength password =
   case (length password > 20) of

@@ -101,8 +101,12 @@ usernameCoerce (Username x) = x
 userPasswordCoerce :: UserPW -> Password
 userPasswordCoerce (UserPW pw) = pw
 
+userPasswordCoerce' :: UserPW -> String
+userPasswordCoerce' = passwordCoerce . userPasswordCoerce
+
 adminPasswordCoerce :: AdminPW -> Password
 adminPasswordCoerce (AdminPW pw) = pw
+
 
 main :: IO ()
 main = do

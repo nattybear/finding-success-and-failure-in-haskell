@@ -98,6 +98,12 @@ passwordCoerce (Password x) = x
 usernameCoerce :: Username -> String
 usernameCoerce (Username x) = x
 
+userPasswordCoerce :: UserPW -> Password
+userPasswordCoerce (UserPW pw) = pw
+
+adminPasswordCoerce :: AdminPW -> Password
+adminPasswordCoerce (AdminPW pw) = pw
+
 main :: IO ()
 main = do
   putStr "Please enter a username\n> "

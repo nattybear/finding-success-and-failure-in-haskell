@@ -103,7 +103,7 @@ userPasswordCoerce :: UserPW -> Password
 userPasswordCoerce (UserPW pw) = pw
 
 userPasswordCoerce' :: UserPW -> String
-userPasswordCoerce' x = corce (coerce x :: Password) 
+userPasswordCoerce' = coerce
 
 userPasswordCoerceBack :: String -> UserPW
 userPasswordCoerceBack = UserPW . Password

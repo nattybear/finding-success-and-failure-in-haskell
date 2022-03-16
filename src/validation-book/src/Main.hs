@@ -3,6 +3,7 @@
 module Main where
 
 import Data.Char
+import Data.Coerce
 import Data.Validation
 
 newtype Password = Password String
@@ -85,7 +86,7 @@ makeUser name password =
 display :: Username -> Password -> IO ()
 display name password =
   case makeUser name password of
-    Failure err -> putStr (unlines (errorCoerce err))
+    Failure err -> putStr (unlines (coerce err))
     Success (User (Username name) password) ->
       putStrLn ("Welcome, " ++ name)
 

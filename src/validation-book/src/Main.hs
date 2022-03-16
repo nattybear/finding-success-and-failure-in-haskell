@@ -88,6 +88,12 @@ display name password =
 errorCoerce :: Error -> [String]
 errorCoerce (Error err) = err
 
+passwordCoerce :: Password -> String
+passwordCoerce (Password x) = x
+
+usernameCoerce :: Username -> String
+usernameCoerce (Username x) = x
+
 main :: IO ()
 main = do
   putStr "Please enter a username\n> "

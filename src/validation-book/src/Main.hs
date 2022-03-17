@@ -3,6 +3,7 @@
 module Main where
 
 import Data.Char
+import Data.Coerce
 import Data.Validation
 
 newtype Password = Password String
@@ -16,6 +17,12 @@ newtype Username = Username String
 
 data User = User Username Password
   deriving Show
+
+newtype UserPW = UserPW Password
+
+newtype AdminPW = AdminPW Password
+
+type Rule a = (a -> Validation Error a)
 
 checkPasswordLength :: String -> Validation Error Password
 checkPasswordLength password =
@@ -45,12 +52,12 @@ cleanWhitespace (x : xs) =
     True  -> cleanWhitespace xs
     False -> Success (x : xs)
 
-validatePassword :: Password -> Validation Error Password
-validatePassword (Password password) =
-  case (cleanWhitespace password) of
+validatePassword :: Rule Password
+validatePassword password =
+  case (coerce cleanWhitespace :: Rule Password) password of
     Failure err -> Failure err
-    Success password2 -> requireAlphaNum password2 *>
-                         checkPasswordLength password2
+    Success password2 -> (coerce requireAlphaNum :: Rule Password) password2 *>
+                         (coerce checkPasswordLength :: Rule Password) password2
 
 validateUsername :: Username -> Validation Error Username
 validateUsername (Username username) =
@@ -81,12 +88,31 @@ makeUser name password =
 display :: Username -> Password -> IO ()
 display name password =
   case makeUser name password of
-    Failure err -> putStr (unlines (errorCoerce err))
-    Success (User (Username name) password) ->
-      putStrLn ("Welcome, " ++ name)
+    Failure err -> putStr (unlines (coerce err))
+    Success (User name password) ->
+      putStrLn ("Welcome, " ++ coerce name)
 
 errorCoerce :: Error -> [String]
 errorCoerce (Error err) = err
+
+passwordCoerce :: Password -> String
+passwordCoerce (Password x) = x
+
+usernameCoerce :: Username -> String
+usernameCoerce (Username x) = x
+
+userPasswordCoerce :: UserPW -> Password
+userPasswordCoerce (UserPW pw) = pw
+
+userPasswordCoerce' :: UserPW -> String
+userPasswordCoerce' = coerce
+
+userPasswordCoerceBack :: String -> UserPW
+userPasswordCoerceBack = UserPW . Password
+
+adminPasswordCoerce :: AdminPW -> Password
+adminPasswordCoerce (AdminPW pw) = pw
+
 
 main :: IO ()
 main = do

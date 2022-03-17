@@ -22,6 +22,8 @@ newtype UserPW = UserPW Password
 
 newtype AdminPW = AdminPW Password
 
+type Rule a = (a -> Validation Error a)
+
 checkPasswordLength :: String -> Validation Error Password
 checkPasswordLength password =
   case (length password > 20) of

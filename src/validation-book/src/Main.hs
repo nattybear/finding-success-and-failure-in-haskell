@@ -52,12 +52,12 @@ cleanWhitespace (x : xs) =
     True  -> cleanWhitespace xs
     False -> Success (x : xs)
 
-validatePassword :: Password -> Validation Error Password
-validatePassword (Password password) =
-  case (cleanWhitespace password) of
+validatePassword :: Rule Password
+validatePassword password =
+  case (coerce cleanWhitespace :: Rule Password) password of
     Failure err -> Failure err
-    Success password2 -> requireAlphaNum password2 *>
-                         checkPasswordLength password2
+    Success password2 -> (coerce requireAlphaNum :: Rule Password) password2 *>
+                         (coerce checkPasswordLength :: Rule Password) password2
 
 validateUsername :: Username -> Validation Error Username
 validateUsername (Username username) =

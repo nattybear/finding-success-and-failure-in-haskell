@@ -24,6 +24,12 @@ newtype AdminPW = AdminPW Password
 
 type Rule a = (a -> Validation Error a)
 
+class FoldAB f where
+  foldAB :: (a -> c) -> (b -> c) -> f a b -> c
+
+instance FoldAB Validation where
+  foldAB = validation
+
 checkPasswordLength :: String -> Validation Error Password
 checkPasswordLength password =
   case (length password > 20) of
@@ -87,10 +93,9 @@ makeUser name password =
 
 display :: Username -> Password -> IO ()
 display name password =
-  case makeUser name password of
-    Failure err -> putStr (unlines (coerce err))
-    Success (User name password) ->
-      putStrLn ("Welcome, " ++ coerce name)
+  foldAB (\err  -> putStr (unlines (coerce err)))
+         (\user -> putStrLn ("Welcome, " ++ coerce name))
+         (makeUser name password)
 
 errorCoerce :: Error -> [String]
 errorCoerce (Error err) = err

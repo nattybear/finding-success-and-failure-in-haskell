@@ -27,3 +27,5 @@ instance MaybeAB Either where
   maybeA (Right _b) = Nothing
   maybeB (Left  _a) = Nothing
   maybeB (Right  b) = Just b
+
+addTenIf x y = if (x > y) then (x + 10) else y

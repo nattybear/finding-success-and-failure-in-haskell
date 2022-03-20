@@ -33,3 +33,16 @@ instance MaybeAB Either where
 addTenIf x y = if (x > y) then (x + 10) else y
 
 addTenBool x y = bool y (x + 10) (x > y)
+
+foo :: String -> Int
+foo s = case safeHead s of
+  Nothing -> 0
+  Just x  -> ord x
+
+maybe' :: b -> (a -> b) -> Maybe a -> b
+maybe' b _ Nothing = b
+maybe' _ f (Just x) = f x
+
+safeHead :: [a] -> Maybe a
+safeHead [] = Nothing
+safeHead (x:_) = Just x

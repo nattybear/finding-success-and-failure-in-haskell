@@ -2,6 +2,7 @@
 
 module Main where
 
+import Control.Lens
 import Data.Char
 import Data.Coerce
 import Data.Validation

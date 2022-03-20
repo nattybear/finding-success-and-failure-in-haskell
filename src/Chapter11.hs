@@ -46,3 +46,6 @@ maybe' _ f (Just x) = f x
 safeHead :: [a] -> Maybe a
 safeHead [] = Nothing
 safeHead (x:_) = Just x
+
+class FoldAB f where
+  foldAB :: (a -> c) -> (b -> c) -> f a b -> c

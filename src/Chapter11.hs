@@ -49,3 +49,9 @@ safeHead (x:_) = Just x
 
 class FoldAB f where
   foldAB :: (a -> c) -> (b -> c) -> f a b -> c
+
+instance FoldAB Either where
+  foldAB = either
+
+instance FoldAB Validation where
+  foldAB = validation

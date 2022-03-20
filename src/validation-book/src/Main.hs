@@ -75,12 +75,8 @@ validateUsername (Username username) =
 
 passwordErrors :: Password -> Validation Error Password
 passwordErrors password =
-  mapFailure (\err -> Error ["Invalid password:"] <> err)
-             (validatePassword password)
-
-mapFailure :: (e1 -> e2) -> Validation e1 a -> Validation e2 a
-mapFailure f (Failure e) = Failure (f e)
-mapFailure _ (Success x) = Success x
+  over _Failure (\err -> Error ["Invalid password:"] <> err)
+                (validatePassword password)
 
 usernameErrors :: Username -> Validation Error Username
 usernameErrors username =

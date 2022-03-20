@@ -1,3 +1,5 @@
+import Data.Bool
+import Data.Char
 import Data.Validation
 
 class LiftAB f where
@@ -29,3 +31,5 @@ instance MaybeAB Either where
   maybeB (Right  b) = Just b
 
 addTenIf x y = if (x > y) then (x + 10) else y
+
+addTenBool x y = bool y (x + 10) (x > y)

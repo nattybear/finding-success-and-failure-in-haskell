@@ -85,10 +85,10 @@ usernameErrors username =
                             <> err)
     Success username2 -> Success username2
 
-makeUser :: Username -> Password -> Validation Error User
+makeUser :: Username -> Password -> Either Error User
 makeUser name password =
-  User <$> usernameErrors name
-       <*> passwordErrors password
+  review _Validation
+   (User <$> usernameErrors name <*> passwordErrors password)
 
 display :: Username -> Password -> IO ()
 display name password =

@@ -30,6 +30,20 @@ instance MaybeAB Either where
   maybeB (Left  _a) = Nothing
   maybeB (Right  b) = Just b
 
+data These a b = This a | That b | These a b
+
+instance LiftAB These where
+  liftA = This
+  liftB = That
+
+instance MaybeAB These where
+  maybeA (This   a   ) = Just a
+  maybeA (That     _b) = Nothing
+  maybeA (These  a _b) = Just a
+  maybeB (This  _a   ) = Nothing
+  maybeB (That      b) = Just b
+  maybeB (These _a  b) = Just b
+
 addTenIf x y = if (x > y) then (x + 10) else y
 
 addTenBool x y = bool y (x + 10) (x > y)

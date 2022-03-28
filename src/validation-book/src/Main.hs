@@ -31,6 +31,9 @@ class FoldAB f where
 instance FoldAB Validation where
   foldAB = validation
 
+instance FoldAB Either where
+  foldAB = either
+
 checkPasswordLength :: String -> Validation Error Password
 checkPasswordLength password =
   case (length password > 20) of
@@ -116,6 +119,7 @@ userPasswordCoerceBack = UserPW . Password
 
 adminPasswordCoerce :: AdminPW -> Password
 adminPasswordCoerce (AdminPW pw) = pw
+
 
 
 main :: IO ()

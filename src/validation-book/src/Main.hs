@@ -88,16 +88,16 @@ usernameErrors username =
                             <> err)
     Success username2 -> Success username2
 
-makeUser :: Username -> Password -> Either Error User
+makeUser :: Validate v => Username -> Password -> v Error User
 makeUser name password =
   review _Validation
    (User <$> usernameErrors name <*> passwordErrors password)
 
 display :: Username -> Password -> IO ()
 display name password =
-  foldAB (\err  -> putStr (unlines (coerce err)))
-         (\user -> putStrLn ("Welcome, " ++ coerce name))
-         (makeUser name password)
+  case makeUser name password of
+    Left err   -> putStr (unlines (coerce err))
+    Right user -> putStrLn ("Welcome, " ++ coerce name)
 
 errorCoerce :: Error -> [String]
 errorCoerce (Error err) = err
